@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
@@ -12,13 +12,14 @@ public class UIManager : MonoBehaviour
     public GameObject OptionsMenu;
     public GameObject AnyKeyPanel;
     public GameObject MainMenu;
+    public GameObject pauseEnabler;
+
+    public Text chatToPlayer;
     public Coroutine[] FadeCoroutine;
     public Coroutine[] FadeInCoroutine;
 
     public Dropdown resolution;
     public Resolution[] resolutions;
-
-    public Scene[] scenes;
 
     public AudioMixerGroup[] Audio;
     public AudioSource musicSource;
@@ -29,7 +30,16 @@ public class UIManager : MonoBehaviour
     public Text musicVolumePercent;
     public Text sFXVolumePercent;
 
-    public float markedTime;
+    int intToSave;
+    float floatToSave;
+    string stringToSave = "No Text Saved";
+
+    public Text intDisplay;
+    public Text floatDisplay;
+    public Text strongDisplay;
+    public InputField inGameString;
+
+
 
     public void Start()
     {
@@ -40,8 +50,6 @@ public class UIManager : MonoBehaviour
         Screen.fullScreen = true;
         resolutions = Screen.resolutions;
         resolution.ClearOptions();
-
-        musicSource = GetComponent<AudioSource>();
 
         muted = false;
 
@@ -62,11 +70,12 @@ public class UIManager : MonoBehaviour
         resolution.AddOptions(options);
         resolution.value = currentResolutionIndex;
         resolution.RefreshShownValue();
+        chatToPlayer.text = "Welcome to the game";
     }
 
     public void Update()
     {
-        if (MainMenu.activeSelf == false && Input.anyKeyDown )
+        if (MainMenu.activeSelf == false && Input.anyKeyDown)
         {
             MainMenu.SetActive(true);
 
@@ -74,38 +83,33 @@ public class UIManager : MonoBehaviour
             StartCoroutine(SickFade(0,1, MainMenu.GetComponent<CanvasGroup>()));
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (pauseEnabler.activeSelf == true && Input.GetKeyDown(KeyCode.Escape) && PauseMenu.activeSelf == false)
         {
             Pause();
         }
-
     }
 
-    public void AnyKeyScreen()
-    {
 
-    }
-
-    public void PlayGame()
-    {
-
-    }
     public void Options()
     {
         soundEffectsIndex = 0;
         OptionsMenu.SetActive(true);
         StartCoroutine(SickFade(0, 1, OptionsMenu.GetComponent<CanvasGroup>()));
+        chatToPlayer.text = "Options?!?";
     }
     public void CloseOptions()
     {
         soundEffectsIndex = 0;
         OptionsMenu.SetActive(false);
+        chatToPlayer.text = "options Closed!";
     }
     public void Pause()
     {
         soundEffectsIndex = 0;
         Time.timeScale = 0;
         PauseMenu.SetActive(true);
+        StartCoroutine(SickFade(0, 1, PauseMenu.GetComponent<CanvasGroup>()));
+        chatToPlayer.text = "Paused!";
     }
 
     public void ResumeButton()
@@ -113,20 +117,70 @@ public class UIManager : MonoBehaviour
         soundEffectsIndex = 0;
         Time.timeScale = 1;
         PauseMenu.SetActive(false);
+        chatToPlayer.text = "Game Resumed!";
     }
-    public void ToMainMenu()
+
+
+    public void SaveGame()
     {
-
+        PlayerPrefs.SetInt("SavedInteger", intToSave);
+        PlayerPrefs.SetFloat("SavedFloat", floatToSave);
+        PlayerPrefs.SetString("SavedString", stringToSave);
+        PlayerPrefs.Save();
+        chatToPlayer.text = "The game has been saved!";
     }
 
-    public void Save()
-    {
-
-    }
 
     public void LoadLevel()
     {
+        if (PlayerPrefs.HasKey("SavedInteger"))
+        {
+            intToSave = PlayerPrefs.GetInt("SavedInteger");
+            floatToSave = PlayerPrefs.GetFloat("SavedFloat");
+            stringToSave = PlayerPrefs.GetString("SavedString");
 
+            intDisplay.text = intToSave.ToString();
+            floatDisplay.text = floatToSave.ToString();
+            strongDisplay.text = stringToSave;
+
+            chatToPlayer.text = "Game Loaded!";
+        }
+        else
+        {
+            chatToPlayer.text = "No Saves Found!";
+        }
+    }
+
+    public void DeleteSave()
+    {
+        PlayerPrefs.DeleteKey("SavedInteger");
+        chatToPlayer.text = "Save Deleted";
+    }
+
+    public void RaiseInt()
+    {
+        intToSave++;
+        intDisplay.text = intToSave.ToString();
+        chatToPlayer.text = "Integer Increased!";
+    }
+
+    public void RaiseFloat()
+    {
+        floatToSave = floatToSave + Random.Range(0.1f, 1.0f);
+        floatDisplay.text = floatToSave.ToString();
+        chatToPlayer.text = "Float Increased!";
+    }
+
+    public void SetString()
+    {
+        if (stringToSave == "")
+        {
+            stringToSave = "No Text";
+        }
+        strongDisplay.text = inGameString.text;
+        stringToSave = strongDisplay.text.ToString();
+
+        chatToPlayer.text = "String Changed!";
     }
     public void Mute(bool isMuted)
     {
@@ -171,25 +225,20 @@ public class UIManager : MonoBehaviour
         Screen.fullScreen = isFullScreen;
     }
 
-    public IEnumerator SickFade(float start, float  end, CanvasGroup selectedObject)
+    public IEnumerator SickFade(float start, float end, CanvasGroup selectedObject)
     {
-        float emarkedTime = Time.time;
+        float emarkedTime = Time.unscaledTime;
         float current;
         float difference = 0.01f;
         current = start;
 
         while (Mathf.Abs(current - end) > difference)
         {
-            current = Mathf.Lerp(start, end, Time.time / (emarkedTime + 2));
+            current = Mathf.Lerp(start, end, (Time.unscaledTime - emarkedTime) /  2);
             selectedObject.alpha = current;
 
             yield return 0;
         }
-    }
-
-    public void TimeMarker()
-    {
-        markedTime = Time.time;
     }
 
     public void Quit()
