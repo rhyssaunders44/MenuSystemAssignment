@@ -12,14 +12,27 @@ public class LoadLevel : MonoBehaviour
 
     bool isLoading = false;
     AsyncOperation operation;
-    void LoadAsynch(int sceneIndex)
+
+    public static bool loadDataAvailable;
+
+    public void LoadAsynch(int sceneIndex)
+    {
+        var loadGameData = PlayerPrefs.HasKey("SavedInteger") ? loadDataAvailable = true : loadDataAvailable = false;
+        if (loadDataAvailable == true)
+        {
+            operation = SceneManager.LoadSceneAsync(sceneIndex);
+            loadingScreen.SetActive(true);
+            isLoading = true;
+        }
+    }
+   
+    public void NewGame(int sceneIndex)
     {
         operation = SceneManager.LoadSceneAsync(sceneIndex);
         loadingScreen.SetActive(true);
-
         isLoading = true;
+        loadDataAvailable = false;
     }
-
 
     private void Update()
     {
@@ -29,11 +42,5 @@ public class LoadLevel : MonoBehaviour
             progressBar.fillAmount = progress;
             progressText.text = "LOADING: " + (progress * 100).ToString() + " %";
         }
-    }
-
-
-    public void LoadingLevel(int sceneIndex)
-    {
-        LoadAsynch(sceneIndex);
     }
 }

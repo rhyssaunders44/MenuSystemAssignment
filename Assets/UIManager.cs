@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
@@ -40,7 +39,6 @@ public class UIManager : MonoBehaviour
     public InputField inGameString;
 
 
-
     public void Start()
     {
         PauseMenu.SetActive(false);
@@ -52,7 +50,7 @@ public class UIManager : MonoBehaviour
         resolution.ClearOptions();
 
         muted = false;
-
+        
         List<string> options = new List<string>();
         int currentResolutionIndex = 0;
 
@@ -65,6 +63,12 @@ public class UIManager : MonoBehaviour
             {
                 currentResolutionIndex = i;
             }
+        }
+
+       
+        if(LoadLevel.loadDataAvailable == true)
+        {
+            LoadedLevel();
         }
 
         resolution.AddOptions(options);
@@ -97,12 +101,14 @@ public class UIManager : MonoBehaviour
         StartCoroutine(SickFade(0, 1, OptionsMenu.GetComponent<CanvasGroup>()));
         chatToPlayer.text = "Options?!?";
     }
+
     public void CloseOptions()
     {
         soundEffectsIndex = 0;
         OptionsMenu.SetActive(false);
         chatToPlayer.text = "options Closed!";
     }
+
     public void Pause()
     {
         soundEffectsIndex = 0;
@@ -120,7 +126,6 @@ public class UIManager : MonoBehaviour
         chatToPlayer.text = "Game Resumed!";
     }
 
-
     public void SaveGame()
     {
         PlayerPrefs.SetInt("SavedInteger", intToSave);
@@ -130,8 +135,7 @@ public class UIManager : MonoBehaviour
         chatToPlayer.text = "The game has been saved!";
     }
 
-
-    public void LoadLevel()
+    public void LoadedLevel()
     {
         if (PlayerPrefs.HasKey("SavedInteger"))
         {
@@ -193,9 +197,9 @@ public class UIManager : MonoBehaviour
             Audio[0].audioMixer.SetFloat("isMutedVolume", 0);
         }
     }
-    public void PlaySFX()
+    public void PlaySFX(int sfxIndex)
     {
-        sfxsource.clip = soundEffects[soundEffectsIndex];
+        sfxsource.clip = soundEffects[sfxIndex];
         sfxsource.Play();
     }
     public void MusicVolume(float musicVolume)
