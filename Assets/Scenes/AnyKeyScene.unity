@@ -168,8 +168,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -323.2888, y: -20.582}
-  m_SizeDelta: {x: 205.4224, y: 71.164}
+  m_AnchoredPosition: {x: -244, y: -51.5}
+  m_SizeDelta: {x: 184.715, y: 103}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &238637507
 MonoBehaviour:
@@ -375,6 +375,30 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8331433322564351561, guid: 5a3d6806983eddd4f8dc799b40c21aee, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 232.9194
+      objectReference: {fileID: 0}
+    - target: {fileID: 8331433322564351561, guid: 5a3d6806983eddd4f8dc799b40c21aee, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 382.9228
+      objectReference: {fileID: 0}
+    - target: {fileID: 8331433322564351561, guid: 5a3d6806983eddd4f8dc799b40c21aee, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8331433322564351561, guid: 5a3d6806983eddd4f8dc799b40c21aee, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8331433322564351561, guid: 5a3d6806983eddd4f8dc799b40c21aee, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -43.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8331433322564351561, guid: 5a3d6806983eddd4f8dc799b40c21aee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -8.4
+      objectReference: {fileID: 0}
     - target: {fileID: 8331433323076836883, guid: 5a3d6806983eddd4f8dc799b40c21aee, type: 3}
       propertyPath: m_audioClip
       value: 
@@ -383,6 +407,10 @@ PrefabInstance:
       propertyPath: OutputAudioMixerGroup
       value: 
       objectReference: {fileID: 5444427964747979156, guid: 3f591f4e79c0b9c46a1fc0ca99f11f8b, type: 2}
+    - target: {fileID: 8331433323273705677, guid: 5a3d6806983eddd4f8dc799b40c21aee, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8331433323273705679, guid: 5a3d6806983eddd4f8dc799b40c21aee, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -749,6 +777,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8331433324185369344, guid: 5a3d6806983eddd4f8dc799b40c21aee, type: 3}
       propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8331433324185369348, guid: 5a3d6806983eddd4f8dc799b40c21aee, type: 3}
+      propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8331433324185369350, guid: 5a3d6806983eddd4f8dc799b40c21aee, type: 3}
@@ -1265,6 +1297,10 @@ PrefabInstance:
     - target: {fileID: 6797974964531767739, guid: b1f8d28d222735b4092be659be124d4b, type: 3}
       propertyPath: m_Name
       value: KeyBindingsPAnel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6797974964531767739, guid: b1f8d28d222735b4092be659be124d4b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6797974964554203716, guid: b1f8d28d222735b4092be659be124d4b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
