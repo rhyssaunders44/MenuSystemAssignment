@@ -9,30 +9,47 @@ public class LoadLevel : MonoBehaviour
     public GameObject loadingScreen;
     public Image progressBar;
     public Text progressText;
+    public static int sceneIndexer;
 
     bool isLoading = false;
     AsyncOperation operation;
 
-    public static bool loadDataAvailable;
-
-    public void LoadAsynch(int sceneIndex)
+    public void Start()
     {
-        var loadGameData = PlayerPrefs.HasKey("SavedInteger") ? loadDataAvailable = true : loadDataAvailable = false;
-        if (loadDataAvailable == true)
-        {
-            operation = SceneManager.LoadSceneAsync(sceneIndex);
-            loadingScreen.SetActive(true);
-            isLoading = true;
-        }
+        sceneIndexer = SceneManager.GetActiveScene().buildIndex;
     }
-   
-    public void NewGame(int sceneIndex)
+
+    public void LoadAsynch()
     {
-        operation = SceneManager.LoadSceneAsync(sceneIndex);
+        operation = SceneManager.LoadSceneAsync(DM.currentSceneInt);
         loadingScreen.SetActive(true);
         isLoading = true;
-        loadDataAvailable = false;
     }
+
+    public void LoadGame()
+    {
+        if (DM.runload)
+            LoadAsynch();
+    }
+
+    public void Continue()
+    {
+        if (PlayerPrefs.HasKey("currentSave"))
+            LoadAsynch();
+    }
+
+    public void ToMain()
+    {
+        operation = SceneManager.LoadSceneAsync(0);
+    }
+
+    public void NewGame()
+    {
+        operation = SceneManager.LoadSceneAsync(1);
+        loadingScreen.SetActive(true);
+        isLoading = true;
+    }
+   
 
     private void Update()
     {
